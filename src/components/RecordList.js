@@ -11,14 +11,36 @@ const base_url =
 
 const RecordList = () => {
   const [records, setRecords] = useState([]);
-
   useEffect(() => {
-    axios
-      .get(`${base_url}/record/`)
+    const fetchData = async () => {
+      try {
+        await fetchRecords();
+      } catch (error) {
+        console.error("Error fetching records:", error);
+        // Handle the error, e.g., display an error message
+      }
+    };
+
+    fetchData();
+  }, []);
+  const fetchRecords = async () => {
+    try {
+      axios
+        .get(`${base_url}/record/`)
+        .then((response) => setRecords(response.data))
+        .catch((error) => console.error("Error fetching records:", error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteRecord = async (id) => {
+    await axios
+      .delete(`${base_url}/record/${id}`)
       .then((response) => setRecords(response.data))
       .catch((error) => console.error("Error fetching records:", error));
-  }, []);
-
+    const updatedUsers = records.filter((record) => record._id !== id);
+    setRecords(updatedUsers);
+  };
   return (
     <Container className="my-5">
       <Card className="shadow-lg">
@@ -34,34 +56,36 @@ const RecordList = () => {
               </tr>
             </thead>
             <tbody>
-              {records.map((record) => (
-                <tr key={record._id}>
-                  <td>{record.name}</td>
-                  <td>{record.position}</td>
-                  <td>{record.level}</td>
-                  <td>
-                    <Link
-                      to={`/view/${record._id}`}
-                      className="btn btn-info btn-sm me-2"
-                    >
-                      <FaEye />
-                    </Link>
-                    <Link
-                      to={`/edit/${record._id}`}
-                      className="btn btn-warning btn-sm me-2"
-                    >
-                      <FaEdit />
-                    </Link>
-                    <Button
-                      variant="danger"
-                      size="sm"
-                      onClick={() => deleteRecord(record._id)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+              {records &&
+                records.length > 0 &&
+                records.map((record) => (
+                  <tr key={record._id}>
+                    <td>{record.name}</td>
+                    <td>{record.position}</td>
+                    <td>{record.level}</td>
+                    <td>
+                      <Link
+                        to={`/view/${record._id}`}
+                        className="btn btn-info btn-sm me-2"
+                      >
+                        <FaEye />
+                      </Link>
+                      <Link
+                        to={`/edit/${record._id}`}
+                        className="btn btn-warning btn-sm me-2"
+                      >
+                        <FaEdit />
+                      </Link>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => deleteRecord(record._id)}
+                      >
+                        <FaTrash />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </Card.Body>
