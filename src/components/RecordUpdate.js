@@ -36,7 +36,7 @@ const RecordUpdate = () => {
     e.preventDefault();
     axios
       .patch(`${base_url}/record/${id}`, formData)
-      .then(() => navigate(`/record/${id}`))
+      .then(() => navigate(`/view/${id}`))
       .catch((error) => console.error("Error updating record:", error));
   };
 

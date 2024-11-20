@@ -9,7 +9,7 @@ import RecordUpdate from "./components/RecordUpdate";
 const App = () => {
   return (
     <Router>
-      <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+      <Navbar bg="dark" variant="dark" expand="lg" className="mb-4 sticky-top">
         <Container>
           <Navbar.Brand href="/">MERN User Records</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -42,7 +42,10 @@ const RecordList = () => {
     setRecords(updatedUsers);
   };
   return (
-    <Container className="my-5">
+    <Container className="mt-2 mb-5">
+      <h2 className="text-center fw-bold mb-3">
+        MERN Stack Project CICD Pipeline using Github Actions and AWS
+      </h2>
       <Card className="shadow-lg">
         <Card.Body>
           <Card.Title className="mb-4 text-center">User Records</Card.Title>
